@@ -3,6 +3,7 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 
 lsp.ensure_installed({
+    "gopls",
 })
 lsp.nvim_workspace()
 
@@ -35,6 +36,14 @@ lsp.set_preferences({
 
 lsp.on_attach(function(client, bufnr)
 	local opts = {buffer = bufnr, remap = false}
+    local null_ls = require("null-ls")
+    null_ls.setup({
+        sources = {
+            null_ls.builtins.formatting.gofumpt,
+            null_ls.builtins.formatting.goimports_reviser,
+            null_ls.builtins.formatting.golines,
+        },
+    })
 
 	vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
 	vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
@@ -46,6 +55,35 @@ lsp.on_attach(function(client, bufnr)
 	vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
 	vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
 	vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+    require('mason-lspconfig').setup({
+        ensure_installed = {},
+        handlers = {
+            lsp.default_setup,
+            gopls = function ()
+                local on_attach = require("lspconfig").on_attach
+                local capabilities = require("lspconfig").capabilities
+                local util = require("lspconfig/util")
+                require("lspconfig").gopls.setup({
+                    on_attach = on_attach,
+                    capabilities = capabilities,
+                    cmd = {"gopls"},
+                    filetypes = {"go","gomod","gowork","gotmpl"},
+                    root_dir = util.root_pattern("go.work","go.mod",".git"),
+                    settings = {
+                        gopls = {
+                            completeUnimported = true,
+                            usePlaceholders = true,
+                            analyses = {
+                                unsusedparams = true,
+                            }
+                        }
+                    }
+               })
+            end
+        },
+    })
+
 end)
 
 lsp.setup()
@@ -53,3 +91,4 @@ lsp.setup()
 vim.diagnostic.config({
 	virtual_text = true
 })
+
