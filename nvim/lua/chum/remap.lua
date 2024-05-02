@@ -33,6 +33,3 @@ map(
 
 -- Terminal
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-map({ "n", "t" }, "<A-i>", function()
-	require("nvchad.term").toggle({ pos = "float", id = "floatTerm" })
-end, { desc = "Terminal Toggle Floating term" })
