@@ -10,4 +10,3 @@ require("lazy").setup({
 	spec = "chum.lazy",
 	change_detection = { notify = false }
 })
-

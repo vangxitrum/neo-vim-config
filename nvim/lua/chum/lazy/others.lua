@@ -10,10 +10,9 @@ local others = {
     },
     {
 	'm4xshen/autoclose.nvim',
-	config = function ()
+	config = function()
 	    require("autoclose").setup()
-	end
-
+	end,
     },
 }
 
