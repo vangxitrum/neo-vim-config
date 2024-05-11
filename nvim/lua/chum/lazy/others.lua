@@ -14,6 +14,10 @@ local others = {
 	    require("autoclose").setup()
 	end,
     },
+    {
+	'numToStr/Comment.nvim'
+    }
+
 }
 
 return others
