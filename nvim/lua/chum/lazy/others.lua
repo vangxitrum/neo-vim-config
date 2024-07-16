@@ -21,12 +21,24 @@ local others = {
 	'christoomey/vim-tmux-navigator'
     },
     {
-	'pocco81/auto-save.nvim',
+	"rcarriga/nvim-dap-ui",
+	dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
+    },
+    {
+	"folke/which-key.nvim",
 	config = function()
-	    vim.api.nvim_set_keymap("n", "<leader>n", ":ASToggle<CR>", {})
-	end,
-    }
-
+	    vim.o.timeout = true
+	    vim.o.timeoutlen = 300
+	    require("which-key").setup {
+		-- your configuration comes here
+		-- or leave it empty to use the default settings
+		-- refer to the configuration section below
+	    }
+	end
+    },
+    {
+	"github/copilot.vim",
+    },
 }
 
 return others
