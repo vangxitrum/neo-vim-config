@@ -39,6 +39,54 @@ local others = {
     {
 	"github/copilot.vim",
     },
+    {
+	"OmniSharp/omnisharp-vim",
+    },
+    {
+	"lewis6991/spellsitter.nvim",
+	config = function()
+	    require('spellsitter').setup{
+		highlight = {
+		    enabled = true,
+		},
+		enabled = true,
+	    }
+	end
+    },
+    {
+	'norcalli/nvim-colorizer.lua',
+	config = function()
+	    require('colorizer').setup()
+	end,
+    },
+    {
+	'windwp/nvim-ts-autotag',
+	config = function()
+	    require('nvim-ts-autotag').setup({
+		opts = {
+		    -- Defaults
+		    enable_close = true, -- Auto close tags
+		    enable_rename = true, -- Auto rename pairs of tags
+		    enable_close_on_slash = false -- Auto close on trailing </
+		},
+		-- Also override individual filetype configs, these take priority.
+		-- Empty by default, useful if one of the "opts" global settings
+		-- doesn't work well in a specific filetype
+		per_filetype = {
+		    ["html"] = {
+			enable_close = false
+		    }
+		}
+	    })
+	end,
+    },
+    {
+	'APZelos/blamer.nvim',
+    },
+    {
+	'tpope/vim-eunuch',
+    },
+
 }
 
 return others

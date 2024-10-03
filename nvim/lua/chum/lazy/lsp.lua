@@ -57,13 +57,53 @@ return {
                     }
                 end,
 
+                ["tsserver"] = function ()
+                    local lspconfig = require("lspconfig")
+
+                    lspconfig.tsserver.setup {
+                        capabilities = capabilities,
+                    }
+                end,
+
+                ["cssls"] = function ()
+                    local lspconfig = require("lspconfig")
+
+                    lspconfig.cssls.setup {
+                        capabilities = capabilities,
+                    }
+                end,
+
+                ["html"] = function ()
+                    local lspconfig = require("lspconfig")
+
+                    lspconfig.html.setup {
+                        capabilities = capabilities,
+                    }
+                end,
+
+                ["tailwindcss"] = function ()
+                    local lspconfig = require("lspconfig")
+
+                    lspconfig.tailwindcss.setup {
+                        capabilities = capabilities,
+                    }
+                end,
+
+                ["eslint"] = function ()
+                    local lspconfig = require("lspconfig")
+
+                    lspconfig.eslint.setup {
+                        capabilities = capabilities,
+                    }
+                end,
+
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
                         capabilities = capabilities,
                         settings = {
                             Lua = {
-				    runtime = { version = "Lua 5.1" },
+                                runtime = { version = "Lua 5.1" },
                                 diagnostics = {
                                     globals = { "vim", "it", "describe", "before_each", "after_each" },
                                 }
@@ -71,6 +111,8 @@ return {
                         }
                     }
                 end,
+
+
             }
         })
 
@@ -92,8 +134,8 @@ return {
                 { name = 'nvim_lsp' },
                 { name = 'luasnip' }, -- For luasnip users.
             }, {
-                { name = 'buffer' },
-            })
+                    { name = 'buffer' },
+                })
         })
 
         vim.diagnostic.config({
@@ -108,54 +150,56 @@ return {
             },
         })
         vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
-        callback = function(event)
-          local map = function(keys, func, desc)
-            vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-          end
+            group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
 
-          -- Jump to the definition of the word under your cursor.
-          --  This is where a variable was first declared, or where a function is defined, etc.
-          --  To jump back, press <C-t>.
-          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+            callback = function(event)
+                local map = function(keys, func, desc)
+                    vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+                end
 
-          -- Find references for the word under your cursor.
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+                -- Jump to the definition of the word under your cursor.
+                --  This is where a variable was first declared, or where a function is defined, etc.
+                --  To jump back, press <C-t>.
+                map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
-          -- Jump to the implementation of the word under your cursor.
-          --  Useful when your language has ways of declaring types without an actual implementation.
-          map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
-          -- Jump to the type of the word under your cursor.
-          --  Useful when you're not sure what type a variable is and you want to see
-          --  the definition of its *type*, not where it was *defined*.
-          map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+                -- Find references for the word under your cursor.
+                map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
-          -- Fuzzy find all the symbols in your current document.
-          --  Symbols are things like variables, functions, types, etc.
-          map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+                -- Jump to the implementation of the word under your cursor.
+                --  Useful when your language has ways of declaring types without an actual implementation.
+                map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
-          -- Fuzzy find all the symbols in your current workspace.
-          --  Similar to document symbols, except searches over your entire project.
-          map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+                -- Jump to the type of the word under your cursor.
+                --  Useful when you're not sure what type a variable is and you want to see
+                --  the definition of its *type*, not where it was *defined*.
+                map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
 
-          -- Rename the variable under your cursor.
-          --  Most Language Servers support renaming across files, etc.
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+                -- Fuzzy find all the symbols in your current document.
+                --  Symbols are things like variables, functions, types, etc.
+                map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
 
-          -- Execute a code action, usually your cursor needs to be on top of an error
-          -- or a suggestion from your LSP for this to activate.
-          map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+                -- Fuzzy find all the symbols in your current workspace.
+                --  Similar to document symbols, except searches over your entire project.
+                map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-          -- Opens a popup that displays documentation about the word under your cursor
-          --  See `:help K` for why this keymap.
-          map('K', vim.lsp.buf.hover, 'Hover Documentation')
+                -- Rename the variable under your cursor.
+                --  Most Language Servers support renaming across files, etc.
+                map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
-          -- WARN: This is not Goto Definition, this is Goto Declaration.
-          --  For example, in C this would take you to the header.
-          map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-        end,
-      })
+                -- Execute a code action, usually your cursor needs to be on top of an error
+                -- or a suggestion from your LSP for this to activate.
+                map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+
+                -- Opens a popup that displays documentation about the word under your cursor
+                --  See `:help K` for why this keymap.
+                map('K', vim.lsp.buf.hover, 'Hover Documentation')
+
+                -- WARN: This is not Goto Definition, this is Goto Declaration.
+                --  For example, in C this would take you to the header.
+                map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+            end,
+        })
 
 
 

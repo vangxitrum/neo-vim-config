@@ -18,6 +18,7 @@ map("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 map("n", "<leader>pv", vim.cmd.Ex)
 map("n", "<C-s>", "<cmd>w<CR>", { desc = "File Save" })
 map("n", "<C-c>", "<cmd>%y+<CR>", { desc = "File Copy whole" })
+map("n",'<leader>v','<cmd>vsplit<CR><cmd>lua require("telescope.builtin").lsp_definitions()<CR>',{desc ='[G]oto [D]efinition in new tab'} )
 
 -- Comment
 map("n", "<leader>/", function()
@@ -33,3 +34,5 @@ map(
 
 -- Terminal
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+map("n", "<leader>n", "<cmd>ToggleTerm 2 direction=float<CR>", { desc = "Toggle terminal" })
