@@ -28,6 +28,12 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "gopls",
+                "cssls",
+                "eslint",
+                "gopls",
+                "html",
+                "tailwindcss",
+                "tsserver",
             },
             handlers = {
                 function(server_name) -- default handler (optional)
