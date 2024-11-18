@@ -86,7 +86,6 @@ local others = {
     {
 	'tpope/vim-eunuch',
     },
-
 }
 
 return others
